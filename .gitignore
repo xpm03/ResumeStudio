@@ -1,0 +1,32 @@
+# Historical local recovery material
+/.archive/
+
+# Dependencies, environments and generated output
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+.tools/
+.venv/
+venv/
+*.tsbuildinfo
+test-results/
+playwright-report/
+
+# Credentials and machine-local settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.vscode/
+.idea/
+.DS_Store
+*.log
+
+# Private user documents and local exports
+/private/
+/exports/
+/backups/
+*.resume.json
