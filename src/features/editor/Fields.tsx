@@ -1,17 +1,18 @@
 import { useId } from 'react';
 import { ArrowDown, ArrowUp, Plus, Trash2 } from 'lucide-react';
-import { COLORS, createEntry, moveItem, safeWebLink, type Entry, type Resume, type Section } from '../../domain/resume/model';
+import { COLORS, contactFieldWarning, createEntry, moveItem, type Entry, type Resume, type Section } from '../../domain/resume/model';
 
-function Field({ label, value, onChange, multiline = false, maxLength = 200, placeholder, hint, type = 'text' }: {
-  label: string; value: string; onChange: (value: string) => void; multiline?: boolean; maxLength?: number; placeholder?: string; hint?: string; type?: string;
+function Field({ label, value, onChange, multiline = false, maxLength = 200, placeholder, hint, warning, type = 'text' }: {
+  label: string; value: string; onChange: (value: string) => void; multiline?: boolean; maxLength?: number; placeholder?: string; hint?: string; warning?: string; type?: string;
 }) {
   const id = useId();
-  const hintId = hint ? `${id}-hint` : undefined;
+  const description = warning || hint;
+  const hintId = description ? `${id}-hint` : undefined;
   return <div className={`field ${multiline ? 'field-wide' : ''}`}>
     <label htmlFor={id}>{label}</label>
-    {multiline ? <textarea id={id} aria-describedby={hintId} value={value} onChange={e => onChange(e.target.value)} maxLength={maxLength} placeholder={placeholder} rows={5} /> :
-      <input id={id} type={type} aria-describedby={hintId} value={value} onChange={e => onChange(e.target.value)} maxLength={maxLength} placeholder={placeholder} />}
-    {hint && <small id={hintId}>{hint}</small>}
+    {multiline ? <textarea id={id} aria-describedby={hintId} aria-invalid={warning ? true : undefined} value={value} onChange={e => onChange(e.target.value)} maxLength={maxLength} placeholder={placeholder} rows={5} /> :
+      <input id={id} type={type} aria-describedby={hintId} aria-invalid={warning ? true : undefined} value={value} onChange={e => onChange(e.target.value)} maxLength={maxLength} placeholder={placeholder} />}
+    {description && <small id={hintId} className={warning ? 'field-warning' : undefined}>{description}</small>}
   </div>;
 }
 
@@ -24,9 +25,9 @@ export function BasicsEditor({ value, onChange }: { value: Resume['basics']; onC
     </div>
     <Field label="求职意向" value={value.headline} onChange={update('headline')} placeholder="例如：前端开发工程师" />
     <div className="form-divider"><span>联系方式</span></div>
-    <Field label="电子邮箱" value={value.email} onChange={update('email')} type="email" placeholder="name@example.com" />
+    <Field label="电子邮箱" value={value.email} onChange={update('email')} type="email" placeholder="name@example.com" hint="选填。仅检查填写格式，不验证邮箱是否可收信。" warning={contactFieldWarning('email', value.email)} />
     <Field label="联系电话" value={value.phone} onChange={update('phone')} type="tel" maxLength={100} placeholder="填写常用联系电话" />
-    <Field label="个人网站 / 作品集" value={value.website} onChange={update('website')} maxLength={500} placeholder="https://example.com" hint={value.website && !safeWebLink(value.website) ? '请填写 http(s) 网址。当前内容仅作为文字显示，不生成链接。' : '选填，可填写个人网站或 GitHub 地址。'} />
+    <Field label="个人网站 / 作品集" value={value.website} onChange={update('website')} maxLength={500} placeholder="https://example.com" hint="选填，可填写 http(s) 网址或裸域名，例如 example.com。" warning={contactFieldWarning('website', value.website)} />
     <div className="form-divider"><span>关于你</span></div>
     <Field label="个人简介" value={value.summary} onChange={update('summary')} multiline maxLength={2000} placeholder="用两三句话，介绍你的方向、优势和期待。" hint="选填。简洁、具体，让读者快速了解你。" />
   </div>;

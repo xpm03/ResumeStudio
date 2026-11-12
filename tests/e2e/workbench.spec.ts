@@ -68,11 +68,11 @@ test('edit, save, reorder, export actual PDF and restore backup', async ({ page 
 test('associates field hints with their inputs and keeps invalid websites editable', async ({ page }, testInfo) => {
   await page.goto('./');
   const website = page.getByLabel('个人网站 / 作品集', { exact: true });
-  const optionalHint = '选填，可填写个人网站或 GitHub 地址。';
+  const optionalHint = '选填，可填写 http(s) 网址或裸域名，例如 example.com。';
   await expect(website).toHaveAccessibleDescription(optionalHint);
   await website.fill('javascript:alert(1)');
   await expect(website).toHaveValue('javascript:alert(1)');
-  await expect(website).toHaveAccessibleDescription('请填写 http(s) 网址。当前内容仅作为文字显示，不生成链接。');
+  await expect(website).toHaveAccessibleDescription('请核对网址，可填写 https://example.com 或 example.com，不要包含账号密码。可以继续编辑，当前内容不生成链接。');
   await website.locator('..').screenshot({ path: testInfo.outputPath('field-hints.png') });
   await website.fill('https://example.com');
   await expect(website).toHaveAccessibleDescription(optionalHint);

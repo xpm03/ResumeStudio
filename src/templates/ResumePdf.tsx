@@ -1,5 +1,5 @@
 import { Document, Font, Link, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
-import { safeWebLink, type Resume } from '../domain/resume/model';
+import { safeEmailLink, safeWebLink, type Resume } from '../domain/resume/model';
 
 let registered = false;
 export function registerFonts(base: string) {
@@ -47,7 +47,7 @@ export function ResumePdf({ document: resume }: { document: Resume }) {
     empty: { color: '#a2aaa4', fontSize: 10, marginTop: 26 },
   });
   const website = safeWebLink(b.website);
-  const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email) ? `mailto:${b.email}` : undefined;
+  const email = safeEmailLink(b.email);
   return <Document title={resume.title || '简历'} author={b.name} language="zh-CN" creator="ResumeStudio">
     <Page size="A4" style={s.page} wrap>
       <View style={s.header} wrap={false}>

@@ -76,6 +76,31 @@ export function safeWebLink(value: string): string | undefined {
   } catch { return undefined; }
 }
 
+/** Common unquoted ASCII mailboxes only; other input remains editable plain text. */
+export function safeEmailLink(value: string): string | undefined {
+  const parts = value.split('@');
+  if (parts.length !== 2) return undefined;
+  const [local, domain] = parts;
+  const atom = /^[a-z\d!#$%&'*+/=?^_`{|}~-]+$/i;
+  const label = /^[a-z\d](?:[a-z\d-]{0,61}[a-z\d])?$/i;
+  if (!local || local.length > 64 || !local.split('.').every(part => atom.test(part))) return undefined;
+  if (domain.length > 253 || !domain.includes('.') || !domain.split('.').every(part => label.test(part))) return undefined;
+  // RFC 6068: reserved URI characters in the mailbox must not become headers.
+  return `mailto:${encodeURIComponent(local)}@${domain}`;
+}
+
+/** Advisory feedback only: never reject or rewrite an in-progress draft. */
+export function contactFieldWarning(field: 'email' | 'website', value: string): string | undefined {
+  if (!value.trim()) return undefined;
+  if (field === 'email' && !safeEmailLink(value)) {
+    return '邮箱可能尚未填写完整或不符合常见格式，请核对，例如 name@example.com。可以继续编辑，当前内容仅作为文字导出。';
+  }
+  if (field === 'website' && !safeWebLink(value)) {
+    return '请核对网址，可填写 https://example.com 或 example.com，不要包含账号密码。可以继续编辑，当前内容不生成链接。';
+  }
+  return undefined;
+}
+
 function object(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('备份格式不正确：需要简历 JSON 对象。');
   return value as Record<string, unknown>;
