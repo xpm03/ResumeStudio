@@ -2,6 +2,8 @@
 
 先阅读 [README](README.md)、[Plan.md](Plan.md) 和 [实现说明](docs/architecture.md)，再确定修改范围。欢迎修复中文排版、分页、移动端体验与数据恢复问题。
 
+第一次参与可以从[独立小任务与 AI 协作提示](docs/contributor-tasks.md)开始。各自 Fork、创建分支并提交 PR，维护者评审合并；使用自己的 Git 身份记录实际贡献。
+
 ## 本地开发
 
 使用 `resumestudio` Conda 环境，按 README 安装 Node 依赖。仅修改界面无需 Python；运行 PDF 检查或更新字体才需要开发用 Python 包。

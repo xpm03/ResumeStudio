@@ -2,7 +2,11 @@
 
 一个免登录的开源简历工作台。填写经历、选择排版，在浏览器内制作一份简洁专业的中英文简历。
 
-**当前版本：v0.1.0 初始功能版。** 本地核心流程与生产构建已通过测试，GitHub Pages 正在配置发布；实际部署状态见 [Actions](https://github.com/xpm03/ResumeStudio/actions)。
+**[在线体验 →](https://xpm03.github.io/ResumeStudio/)** · [GitHub 仓库](https://github.com/xpm03/ResumeStudio) · [参与贡献](docs/contributor-tasks.md)
+
+**当前版本：v0.1.0 初始功能版。** 本地与 GitHub Actions 验证通过，已发布 GitHub Pages；公网编辑、PDF 下载和备份恢复流程已复核。构建记录见 [Actions](https://github.com/xpm03/ResumeStudio/actions)。
+
+![ResumeStudio 桌面工作台，内容为虚构示例](docs/screenshots/desktop.png)
 
 ## 已实现功能
 
@@ -73,6 +77,7 @@ npm run test:pdf
 - [GitHub 参考项目调研](docs/reference-research.md)
 - [实现与设计说明](docs/architecture.md)
 - [参与贡献](CONTRIBUTING.md)
+- [适合分工的小任务与 AI 协作提示](docs/contributor-tasks.md)
 - [第三方许可](docs/third-party-notices.md)
 - [开发协作约定](AGENTS.md)
 

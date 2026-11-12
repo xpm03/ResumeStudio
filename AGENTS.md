@@ -7,7 +7,7 @@
 - Preserve privacy: no real resumes, contact details, API keys, archives, environment directories or installed dependencies in commits. Use fictional test data.
 - Keep `.archive/` local and ignored. It contains the old project's recovery material; never add it, including with `git add -f`.
 - Research sources are in `docs/reference-research.md`. Study workflows; do not copy code, templates or assets without checking their specific license and attribution requirements.
-- Commit meaningful stages and push to the new user-authorized repository once its name is confirmed. Do not push the new project to the former ReproLab remote.
+- Commit meaningful stages and push to the confirmed remote `https://github.com/xpm03/ResumeStudio.git`. The former ReproLab remote was deleted. Contributors use their own forks and pull requests.
 - Use GitHub noreply email `177520738+xpm03@users.noreply.github.com` for commits. Do not expose personal email.
 - Update `Plan.md` with actual progress, checks run and remaining issues. Do not mark planned capabilities or unrun tests as complete.
 - The user prefers simple GitHub Pages hosting with no cloud server or tunnel. Publish a website URL only after actual deployment and verification.
