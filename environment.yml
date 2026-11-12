@@ -1,0 +1,9 @@
+name: resumestudio
+channels:
+  - conda-forge
+dependencies:
+  - nodejs=24
+  - gh
+  # Development tooling only; no Python server is required to use the app.
+  - python=3.12
+  - pip
