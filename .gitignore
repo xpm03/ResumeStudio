@@ -30,3 +30,6 @@ playwright-report/
 /exports/
 /backups/
 *.resume.json
+
+# Generated during the build from the installed runtime dependencies
+/public/THIRD_PARTY_LICENSES.txt

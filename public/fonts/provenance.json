@@ -1,0 +1,10 @@
+{
+  "source": "https://raw.githubusercontent.com/google/fonts/a85815a42757630ce188fdad368c2dfc444d4773/ofl/notosanssc/NotoSansSC%5Bwght%5D.ttf",
+  "sourceSha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+  "modifications": "Static TTF instances at weights 400 and 700; renamed ResumeStudio Sans. No glyph subset removed.",
+  "license": "OFL-1.1",
+  "files": {
+    "ResumeStudioSans-Regular.ttf": "cc847266c0e10e7c0921216eb02cd71e4e5e4fd79a50fb84b30f955874b4581d",
+    "ResumeStudioSans-Bold.ttf": "03825d5675efae0bc0215de782164b147344ff0b0550913e717daa058a52f2c3"
+  }
+}
