@@ -6,11 +6,12 @@ function Field({ label, value, onChange, multiline = false, maxLength = 200, pla
   label: string; value: string; onChange: (value: string) => void; multiline?: boolean; maxLength?: number; placeholder?: string; hint?: string; type?: string;
 }) {
   const id = useId();
+  const hintId = hint ? `${id}-hint` : undefined;
   return <div className={`field ${multiline ? 'field-wide' : ''}`}>
     <label htmlFor={id}>{label}</label>
-    {multiline ? <textarea id={id} value={value} onChange={e => onChange(e.target.value)} maxLength={maxLength} placeholder={placeholder} rows={5} /> :
-      <input id={id} type={type} value={value} onChange={e => onChange(e.target.value)} maxLength={maxLength} placeholder={placeholder} />}
-    {hint && <small>{hint}</small>}
+    {multiline ? <textarea id={id} aria-describedby={hintId} value={value} onChange={e => onChange(e.target.value)} maxLength={maxLength} placeholder={placeholder} rows={5} /> :
+      <input id={id} type={type} aria-describedby={hintId} value={value} onChange={e => onChange(e.target.value)} maxLength={maxLength} placeholder={placeholder} />}
+    {hint && <small id={hintId}>{hint}</small>}
   </div>;
 }
 

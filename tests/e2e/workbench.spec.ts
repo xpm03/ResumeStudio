@@ -65,6 +65,23 @@ test('edit, save, reorder, export actual PDF and restore backup', async ({ page 
   await page.screenshot({ path: testInfo.outputPath('desktop.png'), fullPage: true });
 });
 
+test('associates field hints with their inputs and keeps invalid websites editable', async ({ page }, testInfo) => {
+  await page.goto('./');
+  const website = page.getByLabel('个人网站 / 作品集', { exact: true });
+  const optionalHint = '选填，可填写个人网站或 GitHub 地址。';
+  await expect(website).toHaveAccessibleDescription(optionalHint);
+  await website.fill('javascript:alert(1)');
+  await expect(website).toHaveValue('javascript:alert(1)');
+  await expect(website).toHaveAccessibleDescription('请填写 http(s) 网址。当前内容仅作为文字显示，不生成链接。');
+  await website.locator('..').screenshot({ path: testInfo.outputPath('field-hints.png') });
+  await website.fill('https://example.com');
+  await expect(website).toHaveAccessibleDescription(optionalHint);
+  await website.fill('');
+  await expect(website).toHaveAccessibleDescription(optionalHint);
+  await expect(page.getByLabel('个人简介', { exact: true })).toHaveAccessibleDescription('选填。简洁、具体，让读者快速了解你。');
+  await expect(page.getByLabel('姓名', { exact: true })).not.toHaveAttribute('aria-describedby');
+});
+
 test('rejects corrupt import and keeps saved content', async ({ page }) => {
   await page.goto('./');
   await page.getByLabel('姓名', { exact: true }).fill('保留内容');
