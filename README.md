@@ -4,7 +4,7 @@
 
 **[在线体验 →](https://xpm03.github.io/ResumeStudio/)** · [GitHub 仓库](https://github.com/xpm03/ResumeStudio) · [参与贡献](docs/contributor-tasks.md)
 
-**当前版本：v0.1.1 优化版。** 新增按内容选择的小字体与完整字库回退，修复预览更新期间的资源释放问题。版本发布与验证状态见 [Actions](https://github.com/xpm03/ResumeStudio/actions)。
+**当前版本：v0.1.1 优化版，已上线。** 常用字体体积减少 76.73%，生僻字按需回退完整字库，修复预览更新期间的资源释放问题。[CI 与部署](https://github.com/xpm03/ResumeStudio/actions/runs/43691125368)通过，公网字体请求和 PDF 导出已复核。
 
 ![ResumeStudio 桌面工作台，内容为虚构示例](docs/screenshots/desktop.png)
 
@@ -80,7 +80,7 @@ npm run test:pdf
 - 常用字体两字重合计由 21.18 MB 减至 4.93 MB（减少 76.73%）；子集之外的字符会额外触发完整字体加载，约 21.18 MB。弱网仍可能较慢，体积减少不等于固定加载时间保证。
 - JSON 仅支持本项目 v1 格式，最大 1 MB；没有 PDF、Word 或其他简历工具的直接导入。
 - 邮箱提示只识别常见的非引号 ASCII 地址，不验证是否可收信，也不覆盖所有合法邮箱格式；其他格式保留为文字。PDF 邮箱链接会编码地址中的 URI 保留字符，网址链接仍仅允许不含账号密码的 HTTP(S) 地址。
-- 桌面与手机 Chromium 已验证；另有 Firefox/WebKit 核心回归配置。WebKit 引擎不等同于实际 Safari 的全面验收，复杂 Unicode 字形仍需更多实测。
+- 桌面与手机 Chromium 已验证，Linux CI 的 Firefox/WebKit 核心流程通过。WebKit 引擎不等同于实际 Safari 的全面验收，复杂 Unicode 字形仍需更多实测。
 - 不保证离线启动，也不宣称保证录用或所有 ATS 通过。投递前请打开导出的 PDF 检查内容与分页。
 
 ## 开始了解项目
