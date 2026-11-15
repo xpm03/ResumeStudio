@@ -16,8 +16,8 @@
 - 原字体：Noto Sans SC，Google Fonts 仓库，固定提交 `a85815a42757630ce188fdad368c2dfc444d4773`。
 - 来源与原始 SHA-256：[字体 provenance.json](../public/fonts/provenance.json)。
 - 完整许可：[SIL Open Font License 1.1](../public/fonts/OFL.txt)。
-- 修改：从可变字体生成 400/700 静态字重，改名为 ResumeStudio Sans；未删除字符覆盖。字体保持 OFL，不因本仓库采用 MIT 而改许可。
-- 重建方式：在项目 Conda 环境安装 `scripts/requirements.txt` 后运行 `python scripts/prepare-fonts.py`。普通开发和使用无需重新生成字体。
+- 修改：从可变字体生成 400/700 静态字重，改名为 ResumeStudio Sans；完整字体保留原字符覆盖。另提供 GB2312、拉丁字母、符号和标点子集，改名为 ResumeStudio Sans Common；运行时按可见内容选择，保留完整字库回退。两种字体均保持 OFL，不因本仓库采用 MIT 而改许可。
+- 重建方式：在项目 Conda 环境安装 `scripts/requirements.txt` 后运行 `python scripts/prepare-fonts.py` 重建子集；通过 `--rebuild-full` 从固定上游来源重建完整字体。普通开发和使用无需重新生成字体。
 
 ## 调研项目
 

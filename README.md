@@ -4,7 +4,7 @@
 
 **[在线体验 →](https://xpm03.github.io/ResumeStudio/)** · [GitHub 仓库](https://github.com/xpm03/ResumeStudio) · [参与贡献](docs/contributor-tasks.md)
 
-**当前版本：v0.1.0 初始功能版。** 本地与 GitHub Actions 验证通过，已发布 GitHub Pages；公网编辑、PDF 下载和备份恢复流程已复核。构建记录见 [Actions](https://github.com/xpm03/ResumeStudio/actions)。
+**当前版本：v0.1.1 优化版。** 新增按内容选择的小字体与完整字库回退，修复预览更新期间的资源释放问题。版本发布与验证状态见 [Actions](https://github.com/xpm03/ResumeStudio/actions)。
 
 ![ResumeStudio 桌面工作台，内容为虚构示例](docs/screenshots/desktop.png)
 
@@ -14,6 +14,7 @@
 - 结构化编辑教育、经历、项目与技能，实时预览 A4 简历。
 - 两款原创单栏模板、主题色、字号、行距和页边距调整。
 - 本地中文字体、自动分页和文字 PDF 导出；预览直接显示同一个 PDF。
+- 常用中英文简历只加载约 4.93 MB 字体；包含生僻字时按需加载完整字体，保留原字库覆盖。
 - 条目和模块排序、模块隐藏、手机编辑/预览切换。
 - 自动保存和 JSON 备份恢复。
 - 损坏草稿恢复提示、导入校验和覆盖前备份。
@@ -55,6 +56,15 @@ npm run test:e2e
 
 端到端测试自动构建并启动临时生产预览服务，覆盖编辑、保存恢复、备份导入导出、联系方式提示与 PDF 链接注释、实际 PDF 文本与手机布局。可通过 `PLAYWRIGHT_BROWSERS_PATH=.tools/browsers` 将测试浏览器下载隔离在项目内。
 
+补充 Firefox 和 WebKit 引擎的核心流程检查：
+
+```sh
+npx playwright install firefox webkit
+npm run test:compat
+```
+
+字体回归同时核对实际请求文件与体积、生僻字文本、失败重试及更新过程中缩放；兼容性用例覆盖中文编辑、预览、保存恢复、PDF 下载和手机视图。
+
 检查中文 PDF 与字体时，在开发环境中额外安装 Python 工具：
 
 ```sh
@@ -62,15 +72,15 @@ python -m pip install -r scripts/requirements.txt
 npm run test:pdf
 ```
 
-该检查生成一页与四页中英混排样例，验证 A4、文本、嵌入字体和页面边界，PNG 位于 `.tools/pdf-check/`。这些 Python 包只用于开发核验。GitHub Actions 会执行相同检查，通过后发布 Pages。
+该检查生成一页、四页中英混排及生僻字样例，验证 A4、文本、嵌入字体和页面边界，PNG 位于 `.tools/pdf-check/`。这些 Python 包只用于开发核验。GitHub Actions 会执行相同检查及浏览器回归，通过后发布 Pages。
 
 ## 当前边界
 
 - 一份本地工作草稿；跨设备使用 JSON 备份恢复。没有云同步或账户。
-- 首次排版需加载约 21 MB 的中文字体，弱网可能较慢；支持字体缓存，冷启动体积仍待优化。
+- 常用字体两字重合计由 21.18 MB 减至 4.93 MB（减少 76.73%）；子集之外的字符会额外触发完整字体加载，约 21.18 MB。弱网仍可能较慢，体积减少不等于固定加载时间保证。
 - JSON 仅支持本项目 v1 格式，最大 1 MB；没有 PDF、Word 或其他简历工具的直接导入。
 - 邮箱提示只识别常见的非引号 ASCII 地址，不验证是否可收信，也不覆盖所有合法邮箱格式；其他格式保留为文字。PDF 邮箱链接会编码地址中的 URI 保留字符，网址链接仍仅允许不含账号密码的 HTTP(S) 地址。
-- 桌面与手机 Chromium 已验证；Safari、Firefox 和复杂 Unicode 字形仍需更多实测。
+- 桌面与手机 Chromium 已验证；另有 Firefox/WebKit 核心回归配置。WebKit 引擎不等同于实际 Safari 的全面验收，复杂 Unicode 字形仍需更多实测。
 - 不保证离线启动，也不宣称保证录用或所有 ATS 通过。投递前请打开导出的 PDF 检查内容与分页。
 
 ## 开始了解项目

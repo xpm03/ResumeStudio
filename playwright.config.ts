@@ -3,6 +3,7 @@ import { defineConfig } from '@playwright/test';
 const localUrl = `http://127.0.0.1:4173${process.env.GITHUB_ACTIONS ? '/ResumeStudio/' : '/'}`;
 export default defineConfig({
   testDir: './tests/e2e',
+  testIgnore: '**/compatibility.spec.ts',
   timeout: 120000,
   expect: { timeout: 45000 },
   fullyParallel: false,

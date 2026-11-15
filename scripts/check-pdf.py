@@ -4,16 +4,19 @@ import sys
 import pymupdf as fitz
 
 folder = Path(sys.argv[1])
-for name in ['sample', 'long']:
+for name in ['sample', 'long', 'rare']:
     doc = fitz.open(folder / f'{name}.pdf')
     text = ''.join(page.get_text() for page in doc)
     for expected in ['林知夏', '教育背景', '专业技能', 'Figma', '产品设计师']:
         assert expected in text, (name, 'missing text', expected)
     assert '\ufffd' not in text and '\x00' not in text, (name, 'invalid glyphs')
-    assert len(doc) == 1 if name == 'sample' else len(doc) >= 2
+    assert len(doc) >= 2 if name == 'long' else len(doc) == 1
+    if name == 'rare':
+        assert '龘曌' in text, 'rare character fallback failed'
     for page in doc:
         assert abs(page.rect.width - 595.28) < 1 and abs(page.rect.height - 841.89) < 1
         assert any('ResumeStudio' in font[3] for font in page.get_fonts()), 'embedded font missing'
+        assert any(('Common' in font[3]) == (name != 'rare') for font in page.get_fonts()), 'incorrect font tier'
         for block in page.get_text('dict')['blocks']:
             for line in block.get('lines', []):
                 x0, y0, x1, y1 = line['bbox']

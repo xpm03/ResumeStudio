@@ -1,13 +1,16 @@
 import { Document, Font, Link, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { safeEmailLink, safeWebLink, type Resume } from '../domain/resume/model';
+import { fontAssets, fontModeForResume } from './font-selection';
 
 let registered = false;
 export function registerFonts(base: string) {
   if (registered) return;
-  Font.register({ family: 'ResumeStudio Sans', fonts: [
-    { src: `${base}ResumeStudioSans-Regular.ttf`, fontWeight: 400 },
-    { src: `${base}ResumeStudioSans-Bold.ttf`, fontWeight: 700 },
-  ] });
+  for (const assets of Object.values(fontAssets)) {
+    Font.register({ family: assets.family, fonts: [
+      { src: `${base}${assets.files.Regular}`, fontWeight: 400 },
+      { src: `${base}${assets.files.Bold}`, fontWeight: 700 },
+    ] });
+  }
   // Empty fragments become zero-width break opportunities in textkit, without
   // adding hyphens or characters to the exported text. Keep ordinary Latin words intact.
   Font.registerHyphenationCallback(word => {
@@ -29,7 +32,7 @@ export function ResumePdf({ document: resume }: { document: Resume }) {
   const { basics: b, design: d } = resume;
   const editorial = d.template === 'editorial';
   const s = StyleSheet.create({
-    page: { fontFamily: 'ResumeStudio Sans', fontSize: d.fontSize, lineHeight: d.lineHeight, color: '#292f2c', paddingTop: d.margin, paddingHorizontal: d.margin, paddingBottom: d.margin + 12 },
+    page: { fontFamily: fontAssets[fontModeForResume(resume)].family, fontSize: d.fontSize, lineHeight: d.lineHeight, color: '#292f2c', paddingTop: d.margin, paddingHorizontal: d.margin, paddingBottom: d.margin + 12 },
     header: { paddingBottom: 15, marginBottom: 15, borderBottom: editorial ? 2 : 0.7, borderBottomColor: d.color },
     name: { fontSize: editorial ? 30 : 27, fontWeight: 700, color: d.color, letterSpacing: 1.5, lineHeight: 1.3 },
     headline: { fontSize: 11, marginTop: 6, color: '#46534c' },

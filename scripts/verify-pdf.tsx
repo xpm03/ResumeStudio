@@ -19,4 +19,7 @@ long.sections.find(s => s.kind === 'experience')!.items = Array.from({ length: 9
 }));
 long.basics.website = 'https://example.com/portfolio/projects/research';
 await renderToFile(<ResumePdf document={long} />, `${output}/long.pdf`);
+const rare = createExample();
+rare.basics.name = '林知夏 · 龘曌';
+await renderToFile(<ResumePdf document={rare} />, `${output}/rare.pdf`);
 execFileSync('python', ['scripts/check-pdf.py', output], { stdio: 'inherit' });
